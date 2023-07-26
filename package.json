@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node build/app.js",
     "build:watch": "babel src --out-dir build --extensions .ts --copy-files --watch",
     "build:prod": "babel src --out-dir build --extensions .ts --copy-files --minified"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.9",
