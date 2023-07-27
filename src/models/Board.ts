@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 const { String, ObjectId } = Schema.Types;
 
 const boardSchema = new Schema({
-  id: { type: String, default: uuidv4, unique: true },
-  title: String,
+  id: { type: String, default: uuidv4, unique: true, required: true },
+  title: { type: String, required: true },
   columns: [{ type: ObjectId, ref: "Column" }],
 });
 
