@@ -3,6 +3,6 @@ import express from "express";
 
 const boardRouter = express.Router();
 
-boardRouter.post("/board", createBoard);
+boardRouter.post("/boards", createBoard);
 
 export default boardRouter;
