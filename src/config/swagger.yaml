@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: Kanban Task management
+  description: API
+  version: 0.1.9
+
+servers:
+  - url: https://product-mongo-production.up.railway.app/api
+    description: production server
+  - url: http://localhost:3000/api
+    description: local server
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      responses:
+        "200":
+          description: get products info
+    post:
+      tags:
+        - Products
+      requestBody:
+        description: user registration request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                price:
+                  type: number
+      responses:
+        "201":
+          description: create new product successfully
