@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: Kanban Task management
+  description: API
+  version: 0.1.9
+
+servers:
+  - url: https://product-mongo-production.up.railway.app/api
+    description: production server
+  - url: http://localhost:3000/api
+    description: local server
+paths:
+  /board:
+    post:
+      tags:
+        - Board
+      requestBody:
+        description: create new board
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                  description: Title of the new board
+                  example: My New Board
+                columns:
+                  type: array
+                  description: Array of column titles for the new board (optional)
+                  items:
+                    type: string
+                  example: ["To Do", "In Progress", "Done"]
+      responses:
+        "201":
+          description: create new board successfully

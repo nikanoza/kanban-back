@@ -23,7 +23,21 @@ export const createBoard = async (req: Request, res: Response) => {
     const newColumns = [];
 
     for (let i = 0; i < columns.length; i++) {
-      const column = new Column({});
+      const column = new Column({
+        title: columns[i],
+        tasks: [],
+      });
+
+      await column.save();
+
+      newColumns.push(column._id);
     }
-  } catch (error) {}
+
+    newBoard.columns = columns;
+    await newBoard.save();
+
+    return res.status(201).json(newBoard);
+  } catch (error) {
+    return res.status(401).json(error);
+  }
 };
