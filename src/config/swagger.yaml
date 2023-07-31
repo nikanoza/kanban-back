@@ -35,3 +35,16 @@ paths:
       responses:
         "201":
           description: create new board successfully
+  /boards/{id}:
+    delete:
+      tags:
+        - Board
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Board removed
