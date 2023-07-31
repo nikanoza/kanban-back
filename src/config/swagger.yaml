@@ -5,12 +5,12 @@ info:
   version: 0.1.9
 
 servers:
-  - url: https://product-mongo-production.up.railway.app/api
+  - url: https://kanban-back-production.up.railway.app/api
     description: production server
   - url: http://localhost:3000/api
     description: local server
 paths:
-  /board:
+  /boards:
     post:
       tags:
         - Board
@@ -35,3 +35,16 @@ paths:
       responses:
         "201":
           description: create new board successfully
+  /boards/{id}:
+    delete:
+      tags:
+        - Board
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Board removed

@@ -1,19 +1,21 @@
+import { Schema } from "mongoose";
+
 export interface BoardType {
   title: string;
-  columns: string[];
+  columns: Schema.Types.ObjectId[];
   id: string;
 }
 
 export interface ColumnType {
   title: string;
-  tasks: string[];
+  tasks: Schema.Types.ObjectId[];
   id: string;
 }
 
 export interface TaskType {
   title: string;
   description: string;
-  subtasks: string[];
+  subtasks: Schema.Types.ObjectId[];
   id: string;
 }
 

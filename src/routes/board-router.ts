@@ -1,8 +1,9 @@
-import { createBoard } from "controllers";
+import { createBoard, deleteBoard } from "controllers";
 import express from "express";
 
 const boardRouter = express.Router();
 
 boardRouter.post("/boards", createBoard);
+boardRouter.delete("/boards/:id", deleteBoard);
 
 export default boardRouter;
