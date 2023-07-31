@@ -10,7 +10,7 @@ servers:
   - url: http://localhost:3000/api
     description: local server
 paths:
-  /board:
+  /boards:
     post:
       tags:
         - Board

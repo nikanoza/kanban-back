@@ -5,7 +5,6 @@ import { createBoardSchema } from "schemas";
 export const createBoard = async (req: Request, res: Response) => {
   try {
     const { body } = req;
-
     const validator = await createBoardSchema(body);
 
     const { value, error } = validator.validate(body);
@@ -27,13 +26,12 @@ export const createBoard = async (req: Request, res: Response) => {
         title: columns[i],
         tasks: [],
       });
-
       await column.save();
 
       newColumns.push(column._id);
     }
 
-    newBoard.columns = columns;
+    newBoard.columns = newColumns;
     await newBoard.save();
 
     return res.status(201).json(newBoard);
