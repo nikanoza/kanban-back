@@ -48,3 +48,27 @@ paths:
       responses:
         "200":
           description: Board removed
+    put:
+      tags:
+        - Board
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: create new board
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                  description: Title of the new board
+                  example: My New Board
+      responses:
+        "200":
+          description: Board updated
