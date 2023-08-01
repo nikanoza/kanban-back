@@ -11,6 +11,12 @@ servers:
     description: local server
 paths:
   /boards:
+    get:
+      tags:
+        - Board
+      responses:
+        "200":
+          description: get boards data successfully
     post:
       tags:
         - Board

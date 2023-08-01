@@ -106,6 +106,7 @@ export const updateBoard = async (req: Request, res: Response) => {
 export const getAllBoards = async (_: Request, res: Response) => {
   try {
     const boards = await Board.find({})
+      .select("-_id -__v")
       .populate("columns")
       .populate({
         path: "columns",
@@ -113,8 +114,11 @@ export const getAllBoards = async (_: Request, res: Response) => {
           path: "tasks",
           populate: {
             path: "subtasks",
+            select: "-_id -__v",
           },
+          select: "-_id -__v",
         },
+        select: "-_id -__v",
       })
       .exec();
 
