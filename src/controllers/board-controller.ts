@@ -74,3 +74,42 @@ export const deleteBoard = async (req: Request, res: Response) => {
     res.status(500).json(error);
   }
 };
+
+export const updateBoard = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { title, columns } = req.body;
+
+    const validator = await updateBoardSchema({ title, columns });
+
+    const { error } = validator.validate({ title, columns });
+
+    if (error) {
+      return res.status(401).json(error.details);
+    }
+
+    const boardToUpdate = await Board.findById(id);
+
+    if (!boardToUpdate) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    if (columns && columns.length > 0) {
+      for (let i = 0; i < columns.length; i++) {
+        if (boardToUpdate.columns[i]) {
+          const columnIdToUpdate = boardToUpdate.columns[i];
+          await Column.findByIdAndUpdate(columnIdToUpdate, {
+            title: columns[i],
+          });
+        }
+      }
+    }
+
+    boardToUpdate.title = title;
+    await boardToUpdate.save();
+
+    return res.status(200).json(boardToUpdate);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
