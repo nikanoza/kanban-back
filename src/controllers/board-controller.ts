@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Board, Column, Subtask, Task } from "models";
-import { createBoardSchema } from "schemas";
+import { createBoardSchema, updateBoardSchema } from "schemas";
 
 export const createBoard = async (req: Request, res: Response) => {
   try {
@@ -72,5 +72,58 @@ export const deleteBoard = async (req: Request, res: Response) => {
     res.json({ message: "Board and associated data deleted successfully." });
   } catch (error) {
     res.status(500).json(error);
+  }
+};
+
+export const updateBoard = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+
+    const validator = await updateBoardSchema({ title, id });
+
+    const { error } = validator.validate({ title, id });
+
+    if (error) {
+      return res.status(401).json(error.details);
+    }
+
+    const boardToUpdate = await Board.findOne({ id });
+
+    if (!boardToUpdate) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    boardToUpdate.title = title;
+    await boardToUpdate.save();
+
+    return res.status(200).json(boardToUpdate);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getAllBoards = async (_: Request, res: Response) => {
+  try {
+    const boards = await Board.find({})
+      .select("-_id -__v")
+      .populate("columns")
+      .populate({
+        path: "columns",
+        populate: {
+          path: "tasks",
+          populate: {
+            path: "subtasks",
+            select: "-_id -__v",
+          },
+          select: "-_id -__v",
+        },
+        select: "-_id -__v",
+      })
+      .exec();
+
+    return res.status(200).json(boards);
+  } catch (error) {
+    return res.status(500).json(error);
   }
 };
