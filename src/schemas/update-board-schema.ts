@@ -15,7 +15,6 @@ const updateBoardSchema = async (data: UpdateBoardType) => {
   const board = await Board.findOne({ id: data.id });
   return Joi.object({
     title: Joi.string().required().trim(),
-    columns: Joi.array().items(Joi.string().required().trim()).min(1),
     id: Joi.string().custom(determineIfBoardExists(board)).required(),
   });
 };

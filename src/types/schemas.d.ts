@@ -5,6 +5,5 @@ export interface NewBoardType {
 
 export interface UpdateBoardType {
   title: string;
-  columns: string[];
   id: string;
 }

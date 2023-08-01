@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Board, Column, Subtask, Task } from "models";
-import { createBoardSchema } from "schemas";
+import { createBoardSchema, updateBoardSchema } from "schemas";
 
 export const createBoard = async (req: Request, res: Response) => {
   try {
@@ -78,11 +78,11 @@ export const deleteBoard = async (req: Request, res: Response) => {
 export const updateBoard = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, columns } = req.body;
+    const { title } = req.body;
 
-    const validator = await updateBoardSchema({ title, columns });
+    const validator = await updateBoardSchema({ title, id });
 
-    const { error } = validator.validate({ title, columns });
+    const { error } = validator.validate({ title, id });
 
     if (error) {
       return res.status(401).json(error.details);
@@ -92,17 +92,6 @@ export const updateBoard = async (req: Request, res: Response) => {
 
     if (!boardToUpdate) {
       return res.status(404).json({ message: "Board not found" });
-    }
-
-    if (columns && columns.length > 0) {
-      for (let i = 0; i < columns.length; i++) {
-        if (boardToUpdate.columns[i]) {
-          const columnIdToUpdate = boardToUpdate.columns[i];
-          await Column.findByIdAndUpdate(columnIdToUpdate, {
-            title: columns[i],
-          });
-        }
-      }
     }
 
     boardToUpdate.title = title;
