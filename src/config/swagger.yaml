@@ -122,3 +122,25 @@ paths:
       responses:
         "200":
           description: column removed
+    put:
+      tags:
+        - Column
+      parameters:
+        - in: path
+          name: columnId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: delete column
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+      responses:
+        "204":
+          description: column updated
