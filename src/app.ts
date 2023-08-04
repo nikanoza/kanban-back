@@ -4,7 +4,7 @@ import cors from "cors";
 
 import connect from "./config/mongo.js";
 import bodyParser from "body-parser";
-import { boardRouter } from "routes";
+import { boardRouter, columnRouter } from "routes";
 import { swagger } from "middlewares";
 
 dotenv.config();
@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/api", boardRouter);
+app.use("/api", columnRouter);
 app.use("/", ...swagger);
 
 app.listen(process.env.PORT || 3000);
