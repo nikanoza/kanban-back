@@ -51,7 +51,6 @@ export const deleteColumn = async (req: Request, res: Response) => {
     }
 
     const index = board.columns.findIndex((col) => column._id.equals(col));
-    console.log(index);
     board.columns.splice(1, index);
 
     await column.deleteOne();
@@ -63,4 +62,11 @@ export const deleteColumn = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(401).json(error);
   }
+};
+
+export const updateColumn = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.columnId;
+    const { title } = req.body;
+  } catch (error) {}
 };
