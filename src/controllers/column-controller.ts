@@ -30,7 +30,7 @@ export const createColumn = async (req: Request, res: Response) => {
     board.columns.push(column._id);
     await board.save();
 
-    return res.status(201).json(board);
+    return res.status(201).json(column.id);
   } catch (error) {
     return res.status(401).json(error);
   }

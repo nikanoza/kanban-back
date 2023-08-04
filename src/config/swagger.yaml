@@ -78,3 +78,24 @@ paths:
       responses:
         "200":
           description: Board updated
+  /columns:
+    post:
+      tags:
+        - Column
+      requestBody:
+        description: create new column
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                  description: Title of the new board
+                  example: My New Board
+                boardId:
+                  type: string
+      responses:
+        "201":
+          description: create new column successfully
