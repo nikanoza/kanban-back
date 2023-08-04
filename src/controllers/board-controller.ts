@@ -69,9 +69,11 @@ export const deleteBoard = async (req: Request, res: Response) => {
       board.deleteOne(),
     ]);
 
-    res.json({ message: "Board and associated data deleted successfully." });
+    return res.json({
+      message: "Board and associated data deleted successfully.",
+    });
   } catch (error) {
-    res.status(500).json(error);
+    return res.status(500).json(error);
   }
 };
 

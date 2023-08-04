@@ -35,3 +35,32 @@ export const createColumn = async (req: Request, res: Response) => {
     return res.status(401).json(error);
   }
 };
+
+export const deleteColumn = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.columnId;
+    const { boardId } = req.body;
+
+    const column = await Column.findOne({ id });
+
+    if (!column) {
+      return res.status(404).json({ message: "Column not found" });
+    }
+    const board = await Board.findOne({ id: boardId });
+    if (!board) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    const index = board.columns.findIndex((col) => col === column._id);
+    board.columns.splice(1, index);
+
+    await column.deleteOne();
+    await board.save();
+
+    return res.json({
+      message: "column deleted successfully.",
+    });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
