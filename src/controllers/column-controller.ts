@@ -42,7 +42,6 @@ export const deleteColumn = async (req: Request, res: Response) => {
     const { boardId } = req.body;
 
     const column = await Column.findOne({ id });
-
     if (!column) {
       return res.status(404).json({ message: "Column not found" });
     }
@@ -51,7 +50,8 @@ export const deleteColumn = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Board not found" });
     }
 
-    const index = board.columns.findIndex((col) => col === column._id);
+    const index = board.columns.findIndex((col) => column._id.equals(col));
+    console.log(index);
     board.columns.splice(1, index);
 
     await column.deleteOne();

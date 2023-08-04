@@ -99,3 +99,26 @@ paths:
       responses:
         "201":
           description: create new column successfully
+  /columns/{columnId}:
+    delete:
+      tags:
+        - Column
+      parameters:
+        - in: path
+          name: columnId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: delete column
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                boardId:
+                  type: string
+      responses:
+        "200":
+          description: column removed
