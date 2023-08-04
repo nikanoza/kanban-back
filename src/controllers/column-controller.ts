@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Board, Column } from "models";
-import { createColumnSchema } from "schemas";
+import { createColumnSchema, updateColumnSchema } from "schemas";
 
 export const createColumn = async (req: Request, res: Response) => {
   try {
@@ -68,5 +68,19 @@ export const updateColumn = async (req: Request, res: Response) => {
   try {
     const id = req.params.columnId;
     const { title } = req.body;
-  } catch (error) {}
+
+    const validator = await updateColumnSchema({ title, columnId: id });
+
+    const { error } = validator.validate({ title, columnId: id });
+
+    if (error) {
+      return res.status(401).json(error.details);
+    }
+
+    await Column.findOneAndUpdate({ id }, { title });
+
+    return res.status(204).json({ message: "column updated" });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
 };
