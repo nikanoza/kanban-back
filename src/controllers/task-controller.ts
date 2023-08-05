@@ -48,3 +48,26 @@ export const createTask = async (req: Request, res: Response) => {
     return res.status(401).json(error);
   }
 };
+
+export const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const taskId = req.params.taskId;
+
+    const task = await Task.findOne({ id: taskId });
+    if (!task) {
+      return res.status(404).json({ message: "task not found" });
+    }
+
+    const subtasks = await Subtask.find({ _id: { $in: task.subtasks } });
+
+    await Promise.all([
+      Subtask.deleteMany({
+        _id: { $in: subtasks.map((subtask) => subtask._id) },
+      }),
+      task.deleteOne(),
+    ]);
+    return res.json({
+      message: "Task and associated data deleted successfully.",
+    });
+  } catch (error) {}
+};
