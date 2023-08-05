@@ -217,3 +217,71 @@ paths:
       responses:
         "204":
           description: task updated
+  /subtasks:
+    post:
+      tags:
+        - Subtasks
+      requestBody:
+        description: create new subtask
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                  description: Title of the new subtask
+                  example: My New subtask
+                taskId:
+                  type: string
+      responses:
+        "201":
+          description: create new subtask successfully
+  /subtasks/{subtaskId}:
+    delete:
+      tags:
+        - Subtasks
+      parameters:
+        - in: path
+          name: subtaskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: delete subtask
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                taskId:
+                  type: string
+      responses:
+        "200":
+          description: subtask removed
+    put:
+      tags:
+        - Subtasks
+      parameters:
+        - in: path
+          name: subtaskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: update subtask
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        "204":
+          description: subtask updated
