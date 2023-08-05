@@ -238,3 +238,26 @@ paths:
       responses:
         "201":
           description: create new subtask successfully
+  /subtasks/{subtaskId}:
+    delete:
+      tags:
+        - Subtasks
+      parameters:
+        - in: path
+          name: subtaskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: delete subtask
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                taskId:
+                  type: string
+      responses:
+        "200":
+          description: subtask removed
