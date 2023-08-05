@@ -16,7 +16,7 @@ const determineIfBoardExists =
     return value;
   };
 
-const createBoardSchema = async (data: NewColumn) => {
+const createColumnSchema = async (data: NewColumn) => {
   const board = await Board.findOne({ id: data.boardId });
 
   return Joi.object({
@@ -24,4 +24,4 @@ const createBoardSchema = async (data: NewColumn) => {
     title: Joi.string().required().trim(),
   });
 };
-export default createBoardSchema;
+export default createColumnSchema;

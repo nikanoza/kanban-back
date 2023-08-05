@@ -16,7 +16,7 @@ const determineIfColumnExists =
     return value;
   };
 
-const createColumnSchema = async (data: EditColumn) => {
+const updateColumnSchema = async (data: EditColumn) => {
   const column = await Column.findOne({ id: data.columnId });
 
   return Joi.object<EditColumn>({
@@ -24,4 +24,4 @@ const createColumnSchema = async (data: EditColumn) => {
     title: Joi.string().required().trim(),
   });
 };
-export default createColumnSchema;
+export default updateColumnSchema;
