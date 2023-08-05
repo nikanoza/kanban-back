@@ -24,3 +24,28 @@ export const createSubtask = async (req: Request, res: Response) => {
     return res.status(401).json(error);
   }
 };
+
+export const deleteSubtask = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.subtaskId;
+    const { taskId } = req.body;
+
+    const subtask = await Subtask.findOne({ id });
+    if (!subtask) {
+      return res.status(404).json({ message: "subtask not found" });
+    }
+    const task = await Task.findOne({ id: taskId });
+    if (!task) {
+      return res.status(404).json({ message: "task not found" });
+    }
+    const index = task.subtasks.findIndex((item) => subtask._id.equals(item));
+    task.subtasks.splice(1, index);
+    task.save();
+    await subtask.deleteOne();
+    return res.json({
+      message: "subtask deleted successfully.",
+    });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
