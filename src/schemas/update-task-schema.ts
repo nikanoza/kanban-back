@@ -8,8 +8,8 @@ type EditTask = {
 };
 
 const determineIfTaskExists =
-  (column: TaskType | null) => (value: string, helpers: CustomHelpers) => {
-    if (!column) {
+  (task: TaskType | null) => (value: string, helpers: CustomHelpers) => {
+    if (!task) {
       return helpers.error("any.invalid");
     }
 

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Column, Subtask, Task } from "models";
 import { addTaskSchema } from "schemas";
+import updateTaskSchema from "schemas/update-task-schema";
 
 export const createTask = async (req: Request, res: Response) => {
   try {
@@ -78,6 +79,27 @@ export const deleteTask = async (req: Request, res: Response) => {
     return res.json({
       message: "Task and associated data deleted successfully.",
     });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
+
+export const updateTask = async (req: Request, res: Response) => {
+  try {
+    const { body } = req;
+
+    const validator = await updateTaskSchema(body);
+
+    const { value, error } = validator.validate(body);
+
+    if (error) {
+      return res.status(401).json(error.details);
+    }
+
+    const { title, taskId } = value;
+
+    await Task.findOneAndUpdate({ id: taskId }, { title });
+    return res.status(204).json({ message: "task updated" });
   } catch (error) {
     return res.status(401).json(error);
   }
