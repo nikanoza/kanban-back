@@ -52,10 +52,15 @@ export const createTask = async (req: Request, res: Response) => {
 export const deleteTask = async (req: Request, res: Response) => {
   try {
     const taskId = req.params.taskId;
+    const { columnId } = req.body;
 
     const task = await Task.findOne({ id: taskId });
+    const column = await Column.findOne({ id: columnId });
     if (!task) {
       return res.status(404).json({ message: "task not found" });
+    }
+    if (!column) {
+      return res.status(404).json({ message: "column not found" });
     }
 
     const subtasks = await Subtask.find({ _id: { $in: task.subtasks } });
@@ -66,8 +71,14 @@ export const deleteTask = async (req: Request, res: Response) => {
       }),
       task.deleteOne(),
     ]);
+
+    const index = column.tasks.findIndex((item) => task._id.equals(item));
+    column.tasks.splice(1, index);
+    column.save();
     return res.json({
       message: "Task and associated data deleted successfully.",
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(401).json(error);
+  }
 };
