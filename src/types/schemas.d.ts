@@ -11,5 +11,6 @@ export interface UpdateBoardType {
 export interface NewTask {
   title: string;
   description: string;
+  columnId: string;
   subtasks: string[];
 }

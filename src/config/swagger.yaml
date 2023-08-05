@@ -144,3 +144,31 @@ paths:
       responses:
         "204":
           description: column updated
+  /tasks:
+    post:
+      tags:
+        - Task
+      requestBody:
+        description: create new task
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                  description: Title of the new task
+                  example: My New Task
+                description:
+                  type: string
+                columnId:
+                  type: string
+                subtasks:
+                  type: array
+                  description: Array of subtasks titles for the new task
+                    type: string
+                  example: ["To Do", "In Progress", "Done"]
+      responses:
+        "201":
+          description: create new task successfully

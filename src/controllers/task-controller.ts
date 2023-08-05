@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Subtask, Task } from "models";
+import { Column, Subtask, Task } from "models";
 import { addTaskSchema } from "schemas";
 
-export const createBoard = async (req: Request, res: Response) => {
+export const createTask = async (req: Request, res: Response) => {
   try {
     const { body } = req;
 
@@ -13,7 +13,7 @@ export const createBoard = async (req: Request, res: Response) => {
       return res.status(401).json(error.details);
     }
 
-    const { title, description, subtasks } = value;
+    const { title, description, subtasks, columnId } = value;
 
     const newTask = new Task({
       title,
@@ -35,6 +35,14 @@ export const createBoard = async (req: Request, res: Response) => {
     newTask.subtasks = subtasksArray;
 
     newTask.save();
+
+    const column = await Column.findOne({ id: columnId });
+    if (!column) {
+      return res.status(404).json({ message: "Column not found" });
+    }
+
+    column.tasks.push(newTask._id);
+    await column.save();
     return res.status(201).json(newTask);
   } catch (error) {
     return res.status(401).json(error);

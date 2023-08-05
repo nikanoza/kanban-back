@@ -1,11 +1,27 @@
-import Joi from "joi";
-import { NewTask } from "types";
+import Joi, { CustomHelpers } from "joi";
+import { Column } from "models";
+import { ColumnType, NewTask } from "types";
 
-const addTaskSchema = async (_: NewTask) => {
+const determineIfColumnExists =
+  (board: ColumnType | null) => (value: string, helpers: CustomHelpers) => {
+    if (!board) {
+      return helpers.error("any.invalid");
+    }
+
+    return value;
+  };
+
+const addTaskSchema = async (data: NewTask) => {
+  const column = await Column.findOne({ id: data.columnId });
+
   return Joi.object<NewTask>({
     title: Joi.string().required().trim(),
     description: Joi.string().required().trim(),
-    subtasks: Joi.array().items(Joi.string().required().trim()).min(1),
+    columnId: Joi.string().custom(determineIfColumnExists(column)).required(),
+    subtasks: Joi.array()
+      .items(Joi.string().required().trim())
+      .min(1)
+      .required(),
   });
 };
 export default addTaskSchema;
