@@ -7,3 +7,9 @@ export interface UpdateBoardType {
   title: string;
   id: string;
 }
+
+export interface NewTask {
+  title: string;
+  description: string;
+  subtasks: string[];
+}
