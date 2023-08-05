@@ -261,3 +261,27 @@ paths:
       responses:
         "200":
           description: subtask removed
+    put:
+      tags:
+        - Subtasks
+      parameters:
+        - in: path
+          name: subtaskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: update subtask
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        "204":
+          description: subtask updated

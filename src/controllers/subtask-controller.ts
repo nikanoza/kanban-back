@@ -54,7 +54,6 @@ export const updateSubtask = async (req: Request, res: Response) => {
   try {
     const id = req.params.subtaskId;
     const { title, active } = req.body;
-
     if (
       typeof title === "string" &&
       title.trim().length > 0 &&
@@ -68,6 +67,9 @@ export const updateSubtask = async (req: Request, res: Response) => {
       subtask.title = title;
       subtask.active = active;
       await subtask.save();
+      return res.status(204).json({
+        message: "subtask updated successfully.",
+      });
     } else {
       return res.status(401).json({ message: "invalid data" });
     }
