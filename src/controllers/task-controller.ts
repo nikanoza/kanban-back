@@ -86,11 +86,10 @@ export const deleteTask = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
   try {
+    const id = req.params.taskId;
     const { body } = req;
-
-    const validator = await updateTaskSchema(body);
-
-    const { value, error } = validator.validate(body);
+    const validator = await updateTaskSchema({ ...body, taskId: id });
+    const { value, error } = validator.validate({ ...body, taskId: id });
 
     if (error) {
       return res.status(401).json(error.details);

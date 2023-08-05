@@ -195,3 +195,25 @@ paths:
       responses:
         "200":
           description: task removed
+    put:
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: update task
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+      responses:
+        "204":
+          description: task updated
