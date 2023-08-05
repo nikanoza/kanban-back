@@ -217,3 +217,24 @@ paths:
       responses:
         "204":
           description: task updated
+  /subtasks:
+    post:
+      tags:
+        - Subtasks
+      requestBody:
+        description: create new subtask
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                  description: Title of the new subtask
+                  example: My New subtask
+                taskId:
+                  type: string
+      responses:
+        "201":
+          description: create new subtask successfully
