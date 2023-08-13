@@ -20,6 +20,7 @@ export const createBoard = async (req: Request, res: Response) => {
     });
 
     const newColumns = [];
+    const returnColumns = [];
 
     for (let i = 0; i < columns.length; i++) {
       const column = new Column({
@@ -29,12 +30,21 @@ export const createBoard = async (req: Request, res: Response) => {
       await column.save();
 
       newColumns.push(column._id);
+      returnColumns.push({
+        title: columns[i],
+        tasks: [],
+        id: column.id,
+      });
     }
 
     newBoard.columns = newColumns;
     await newBoard.save();
-
-    return res.status(201).json(newBoard);
+    const data = {
+      title: newBoard.title,
+      columns: returnColumns,
+      id: newBoard.id,
+    };
+    return res.status(201).json(data);
   } catch (error) {
     return res.status(401).json(error);
   }
