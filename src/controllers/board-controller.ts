@@ -133,7 +133,6 @@ export const getAllBoards = async (_: Request, res: Response) => {
         select: "-_id -__v",
       })
       .exec();
-
     return res.status(200).json(boards);
   } catch (error) {
     return res.status(500).json(error);

@@ -8,7 +8,7 @@ const taskSchema = new Schema<TaskType>({
   id: { type: String, default: uuidv4, unique: true, require: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  subtasks: [{ type: ObjectId, ref: "Subtasks" }],
+  subtasks: [{ type: ObjectId, ref: "Subtask" }],
 });
 
 const Task = model("Task", taskSchema);
