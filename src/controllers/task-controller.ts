@@ -22,6 +22,7 @@ export const createTask = async (req: Request, res: Response) => {
     });
 
     const subtasksArray = [];
+    const returnSubtasksArray = [];
 
     for (let i = 0; i < subtasks.length; i++) {
       const newSubtask = new Subtask({
@@ -31,6 +32,11 @@ export const createTask = async (req: Request, res: Response) => {
 
       await newSubtask.save();
       subtasksArray.push(newSubtask._id);
+      returnSubtasksArray.push({
+        title: subtasks[i],
+        active: false,
+        id: newSubtask.id,
+      });
     }
 
     newTask.subtasks = subtasksArray;
@@ -44,7 +50,14 @@ export const createTask = async (req: Request, res: Response) => {
 
     column.tasks.push(newTask._id);
     await column.save();
-    return res.status(201).json(newTask);
+
+    const returnData = {
+      title: newTask.title,
+      description: newTask.description,
+      subtasks: returnSubtasksArray,
+      id: newTask.id,
+    };
+    return res.status(201).json(returnData);
   } catch (error) {
     return res.status(401).json(error);
   }
