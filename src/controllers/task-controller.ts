@@ -27,14 +27,14 @@ export const createTask = async (req: Request, res: Response) => {
     for (let i = 0; i < subtasks.length; i++) {
       const newSubtask = new Subtask({
         title: subtasks[i],
-        active: false,
+        active: true,
       });
 
       await newSubtask.save();
       subtasksArray.push(newSubtask._id);
       returnSubtasksArray.push({
         title: subtasks[i],
-        active: false,
+        active: true,
         id: newSubtask.id,
       });
     }
