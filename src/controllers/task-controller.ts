@@ -116,3 +116,36 @@ export const updateTask = async (req: Request, res: Response) => {
     return res.status(401).json(error);
   }
 };
+
+export const updateTaskStatus = async (req: Request, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    const { columnId, newColumnId } = req.body;
+
+    const task = await Task.findOne({ id: taskId });
+    if (!task) {
+      return res.status(404).json({ message: "task not found" });
+    }
+
+    const column = await Column.findOne({ id: columnId });
+
+    if (!column) {
+      return res.status(404).json({ message: "column not found" });
+    }
+
+    const newColumn = await Column.findOne({ id: newColumnId });
+    if (!newColumn) {
+      return res.status(404).json({ message: "column not found" });
+    }
+    const index = column.tasks.findIndex((item) => task._id.equals(item));
+    column.tasks.splice(1, index);
+    column.save();
+
+    newColumn.tasks.push(task._id);
+    newColumn.save();
+
+    return res.status(204).json({ message: "task status updated" });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
