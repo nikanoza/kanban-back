@@ -5,6 +5,7 @@ import { TaskType } from "types";
 type EditTask = {
   taskId: string;
   title: string;
+  description: string;
 };
 
 const determineIfTaskExists =
@@ -21,6 +22,7 @@ const updateTaskSchema = async (data: EditTask) => {
 
   return Joi.object<EditTask>({
     taskId: Joi.string().custom(determineIfTaskExists(task)).required(),
+    description: Joi.string().required().trim(),
     title: Joi.string().required().trim(),
   });
 };

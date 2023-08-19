@@ -108,9 +108,9 @@ export const updateTask = async (req: Request, res: Response) => {
       return res.status(401).json(error.details);
     }
 
-    const { title, taskId } = value;
+    const { title, taskId, description } = value;
 
-    await Task.findOneAndUpdate({ id: taskId }, { title });
+    await Task.findOneAndUpdate({ id: taskId }, { title, description });
     return res.status(204).json({ message: "task updated" });
   } catch (error) {
     return res.status(401).json(error);
