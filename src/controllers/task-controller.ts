@@ -87,7 +87,7 @@ export const deleteTask = async (req: Request, res: Response) => {
     ]);
 
     const index = column.tasks.findIndex((item) => task._id.equals(item));
-    column.tasks.splice(1, index);
+    column.tasks.splice(index, 1);
     column.save();
     return res.json({
       message: "Task and associated data deleted successfully.",
@@ -138,7 +138,7 @@ export const updateTaskStatus = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "column not found" });
     }
     const index = column.tasks.findIndex((item) => task._id.equals(item));
-    column.tasks.splice(1, index);
+    column.tasks.splice(index, 1);
     column.save();
 
     newColumn.tasks.push(task._id);

@@ -217,6 +217,31 @@ paths:
       responses:
         "204":
           description: task updated
+  /tasks/status/{taskId}:
+    put:
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: update task status
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                columnId:
+                  type: string
+                newColumnId:
+                  type: string
+      responses:
+        "200":
+          description: task status updated
   /subtasks:
     post:
       tags:
