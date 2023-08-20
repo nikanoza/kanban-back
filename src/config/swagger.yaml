@@ -214,6 +214,8 @@ paths:
               properties:
                 title:
                   type: string
+                description:
+                  type: string
       responses:
         "204":
           description: task updated
