@@ -12,7 +12,7 @@ export const createSubtask = async (req: Request, res: Response) => {
     if (typeof title === "string" && title.trim().length > 0) {
       const newSubtask = new Subtask({
         title,
-        active: false,
+        active: true,
       });
 
       await newSubtask.save();
